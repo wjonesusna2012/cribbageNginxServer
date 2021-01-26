@@ -39,8 +39,17 @@ const App: React.FC = () => {
       { suite: c5s, rank: parseInt(c5r, 10) }, 
       { suite: c6s, rank: parseInt(c6r, 10) },
     ];
-    const pointBreak: Array<EntryType> = HelperFunctions.createPointTree(hand, deck);
-    setCardData(pointBreak);
+    // const pointBreak: Array<EntryType> = HelperFunctions.createPointTree(hand, deck);
+    fetch('http://localhost:22000/', 
+      {
+        method: 'post',
+        headers: { 'Content-type': 'application/json'},
+        body: JSON.stringify({dealtHand: hand}),
+      }
+    ).then(r => r.json()).then(res => {
+      setCardData(res.body.pointBreak);
+    });
+    // setCardData(pointBreak);
   }
   return (
     <>

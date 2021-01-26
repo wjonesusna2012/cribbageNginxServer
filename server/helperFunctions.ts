@@ -1,4 +1,4 @@
-import { CardType, EntryType } from './displayResults';
+import { CardType, EntryType } from './typeDefinitions';
 import _ from 'lodash';
 
 export const cardRanks = _.range(1, 14);
@@ -176,8 +176,6 @@ const createPointTree = (dealtHand: Array<CardType>, deck: Array<CardType>) => {
   });
   return pointBreakdown;
 };
-
-constructDealtHand
 
 const defaultExport = {
   count15,
