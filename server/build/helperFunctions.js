@@ -1,20 +1,14 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.countFlush = exports.deck = exports.cardSuites = exports.cardRanks = void 0;
-const lodash_1 = __importDefault(require("lodash"));
-exports.cardRanks = lodash_1.default.range(1, 14);
-exports.cardSuites = ['H', 'D', 'S', 'C'];
-exports.deck = [];
-exports.cardRanks.forEach(cR => {
-    exports.cardSuites.forEach(cS => {
-        exports.deck.push({ rank: cR, suite: cS });
+import _ from 'lodash';
+export const cardRanks = _.range(1, 14);
+export const cardSuites = ['H', 'D', 'S', 'C'];
+export const deck = [];
+cardRanks.forEach(cR => {
+    cardSuites.forEach(cS => {
+        deck.push({ rank: cR, suite: cS });
     });
 });
 const count15 = (cards, starter) => {
-    const cardArray = lodash_1.default.concat(cards, starter);
+    const cardArray = _.concat(cards, starter);
     let fifteenCount = 0;
     const count15Helper = (index, subtotal) => {
         for (let i = index; i < cardArray.length; i += 1) {
@@ -30,16 +24,15 @@ const count15 = (cards, starter) => {
     count15Helper(0, 0);
     return fifteenCount;
 };
-const countFlush = (cards, starter) => {
-    if (lodash_1.default.uniqBy(cards, 'suite').length === 1) {
+export const countFlush = (cards, starter) => {
+    if (_.uniqBy(cards, 'suite').length === 1) {
         const points = cards[0].suite === starter.suite ? 5 : 4;
         return points;
     }
     return 0;
 };
-exports.countFlush = countFlush;
 const countPairs = (cards, starter) => {
-    const cardArray = lodash_1.default.concat(cards, starter);
+    const cardArray = _.concat(cards, starter);
     cardArray.sort((a, b) => a.rank - b.rank);
     let pairs = 0;
     for (let i = 0; i < cardArray.length - 1; i += 1) {
@@ -53,8 +46,8 @@ const countPairs = (cards, starter) => {
     return points;
 };
 const countRuns = (cards, starter) => {
-    const cardArray = lodash_1.default.concat(cards, starter);
-    const uniqueRanks = lodash_1.default.uniqBy(cardArray, 'rank').map(m => m.rank).sort((a, b) => a - b);
+    const cardArray = _.concat(cards, starter);
+    const uniqueRanks = _.uniqBy(cardArray, 'rank').map(m => m.rank).sort((a, b) => a - b);
     const rankByCount = Object.fromEntries(uniqueRanks.map(uR => [uR, 0]));
     cardArray.forEach(cA => rankByCount[cA.rank] += 1);
     let startIndex = 0, longestStreak = 1, currentStreak = 1, numberOfRuns = 0;
@@ -84,7 +77,7 @@ const countRuns = (cards, starter) => {
     return 0;
 };
 const countNibs = (cards, starter) => {
-    const points = (lodash_1.default.findIndex(cards, c => c.suite === starter.suite && c.rank === 11) >= 0) ? 1 : 0;
+    const points = (_.findIndex(cards, c => c.suite === starter.suite && c.rank === 11) >= 0) ? 1 : 0;
     return points;
 };
 const countAll = (cards, starter) => {
@@ -92,7 +85,7 @@ const countAll = (cards, starter) => {
     const pointsPairs = countPairs(cards, starter);
     const pointsRun = countRuns(cards, starter);
     const pointsNibs = countNibs(cards, starter);
-    const pointsFlush = exports.countFlush(cards, starter);
+    const pointsFlush = countFlush(cards, starter);
     const points = points15 + pointsPairs + pointsRun + pointsNibs + pointsFlush;
     return points;
 };
@@ -117,7 +110,7 @@ const createSubGroups = (dealtHand, subGroupSize) => {
     return subGroupArray;
 };
 const createRemainingDeck = (dealtHand, deck) => {
-    return lodash_1.default.differenceWith(deck, dealtHand, lodash_1.default.isEqual);
+    return _.differenceWith(deck, dealtHand, _.isEqual);
 };
 const calculateMean = (numbers) => {
     return numbers.reduce((acc, curr) => acc + curr) / numbers.length;
@@ -132,15 +125,15 @@ const calculateIQR = (numbers) => {
     numbers.sort((a, b) => a - b);
     if (numbers.length % 2 === 1) {
         return [
-            calculateMedianSorted(lodash_1.default.slice(numbers, 0, Math.floor(numbers.length / 2))),
+            calculateMedianSorted(_.slice(numbers, 0, Math.floor(numbers.length / 2))),
             calculateMedianSorted(numbers),
-            calculateMedianSorted(lodash_1.default.slice(numbers, numbers.length / 2 + 1))
+            calculateMedianSorted(_.slice(numbers, numbers.length / 2 + 1))
         ];
     }
     return [
-        calculateMedianSorted(lodash_1.default.slice(numbers, 0, Math.floor(numbers.length / 2))),
+        calculateMedianSorted(_.slice(numbers, 0, Math.floor(numbers.length / 2))),
         calculateMedianSorted(numbers),
-        calculateMedianSorted(lodash_1.default.slice(numbers, numbers.length / 2))
+        calculateMedianSorted(_.slice(numbers, numbers.length / 2))
     ];
 };
 const calculateMaximumPoints = (numbers) => {
@@ -149,6 +142,7 @@ const calculateMaximumPoints = (numbers) => {
 };
 const createPointTree = (dealtHand, deck) => {
     const remainingDeck = createRemainingDeck(dealtHand, deck);
+    console.log(dealtHand);
     const allHands = createSubGroups(dealtHand, 4);
     const pointBreakdown = [];
     allHands.forEach(aH => {
@@ -159,7 +153,7 @@ const createPointTree = (dealtHand, deck) => {
         });
         const IQR = calculateIQR(pointPossibilities);
         pointBreakdown.push({
-            cards: lodash_1.default.cloneDeep(aH),
+            cards: _.cloneDeep(aH),
             mean: calculateMean(pointPossibilities),
             max: calculateMaximumPoints(pointPossibilities),
             firstQuartile: IQR[0],
@@ -171,11 +165,11 @@ const createPointTree = (dealtHand, deck) => {
 };
 const defaultExport = {
     count15,
-    countFlush: exports.countFlush,
+    countFlush,
     countPairs,
     countRuns,
     countNibs,
     countAll,
     createPointTree,
 };
-exports.default = defaultExport;
+export default defaultExport;

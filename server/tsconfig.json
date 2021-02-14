@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    // "lib": ["ESNext"],
     "target": "es2020",
-    // "module":"CommonJS",
     "rootDir": "./",
     "outDir": "./build",
     "esModuleInterop": true,
     "strict": true,
+    "moduleResolution": "Node"
   }
 }

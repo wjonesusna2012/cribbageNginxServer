@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import DisplayResults, { EntryType } from './displayResults';
-import HelperFunctions, { deck } from './helperFunctions';
 
 const defaultStartState = {
   c1r: '1',
@@ -40,14 +39,14 @@ const App: React.FC = () => {
       { suite: c6s, rank: parseInt(c6r, 10) },
     ];
     // const pointBreak: Array<EntryType> = HelperFunctions.createPointTree(hand, deck);
-    fetch('http://localhost:22000/', 
+    fetch('http://localhost:22300/', 
       {
         method: 'post',
         headers: { 'Content-type': 'application/json'},
         body: JSON.stringify({dealtHand: hand}),
       }
     ).then(r => r.json()).then(res => {
-      setCardData(res.body.pointBreak);
+      setCardData(res.data);
     });
     // setCardData(pointBreak);
   }
