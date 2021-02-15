@@ -100,7 +100,6 @@ const countAll = (cards: Array<CardType>, starter: CardType) => {
 const createSubGroups = (dealtHand: Array<CardType>, subGroupSize: number) => {
   const subGroupArray: Array<Array<CardType>> = [];
   const subGroupHelper = (indicesArray: Array<number>, lengthToAdd: number, startIndex: number) => {
-    console.log(indicesArray, lengthToAdd, startIndex);
     if (lengthToAdd === 0) {
       const hand: Array<CardType> = [];
       indicesArray.forEach(iA => {
@@ -156,7 +155,7 @@ const calculateMaximumPoints = (numbers: Array<number>) => {
 
 const createPointTree = (dealtHand: Array<CardType>, deck: Array<CardType>) => {
   const remainingDeck = createRemainingDeck(dealtHand, deck);
-  console.log(dealtHand);
+  console.log('CHANGE');
   const allHands = createSubGroups(dealtHand, 4);
   const pointBreakdown: Array<EntryType> = [];
   allHands.forEach(aH => {
