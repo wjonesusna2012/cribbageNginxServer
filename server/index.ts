@@ -25,6 +25,10 @@ app.post('/', jsonParser, (req, res) => {
   res.json({ data });
 });
 
+app.get('/health', (req,res) => {
+  res.json({status: 'Healthy and running!'});
+});
+
 app.listen(envParsed.parsed?.PORT ?? 12345, () => {
   console.log(`Server running on port ${envParsed.parsed?.PORT ?? '12345'}`);
 });
