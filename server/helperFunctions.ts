@@ -155,7 +155,6 @@ const calculateMaximumPoints = (numbers: Array<number>) => {
 
 const createPointTree = (dealtHand: Array<CardType>, deck: Array<CardType>) => {
   const remainingDeck = createRemainingDeck(dealtHand, deck);
-  console.log('CHANGE');
   const allHands = createSubGroups(dealtHand, 4);
   const pointBreakdown: Array<EntryType> = [];
   allHands.forEach(aH => {

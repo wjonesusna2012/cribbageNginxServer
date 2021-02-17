@@ -39,7 +39,7 @@ const App: React.FC = () => {
       { suite: c6s, rank: parseInt(c6r, 10) },
     ];
     // const pointBreak: Array<EntryType> = HelperFunctions.createPointTree(hand, deck);
-    fetch('http://localhost:22300/', 
+    fetch('http://localhost:4000/', 
       {
         method: 'post',
         headers: { 'Content-type': 'application/json'},

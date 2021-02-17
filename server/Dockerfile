@@ -9,6 +9,6 @@ RUN yarn
 
 COPY ./build/cjs .
 
-EXPOSE 8080
+EXPOSE ${CRIBBAGE_SERVER_PORT}
 
 CMD ["node", "index.js"]
